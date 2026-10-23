@@ -1,0 +1,107 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile in the application",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 150 },
+        "avatar": { "type": "string", "maxLength": 500 },
+        "currentRoomId": { "type": "string", "maxLength": 100 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "name", "email"]
+    },
+    "Room": {
+      "title": "Room",
+      "description": "Shared room or flat expense group",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "ownerId": { "type": "string" },
+        "monthlyBudget": { "type": "number" },
+        "currency": { "type": "string", "maxLength": 10 },
+        "currencyCode": { "type": "string", "maxLength": 10 },
+        "language": { "type": "string", "maxLength": 50 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "name", "ownerId"]
+    },
+    "Member": {
+      "title": "Member",
+      "description": "Roommate member in a room",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "roomId": { "type": "string" },
+        "userId": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 150 },
+        "phone": { "type": "string", "maxLength": 50 },
+        "avatar": { "type": "string", "maxLength": 500 },
+        "isAdmin": { "type": "boolean" },
+        "joinDate": { "type": "string" }
+      },
+      "required": ["id", "roomId", "name", "email"]
+    },
+    "Expense": {
+      "title": "Expense",
+      "description": "Shared expense record in a room",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "roomId": { "type": "string" },
+        "title": { "type": "string", "maxLength": 150 },
+        "amount": { "type": "number" },
+        "date": { "type": "string", "maxLength": 50 },
+        "category": { "type": "string", "maxLength": 50 },
+        "paidBy": { "type": "string" },
+        "splitType": { "type": "string", "maxLength": 30 },
+        "notes": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "roomId", "title", "amount", "paidBy"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "User notification alert",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string", "maxLength": 150 },
+        "subtitle": { "type": "string", "maxLength": 200 },
+        "timestamp": { "type": "string", "maxLength": 50 },
+        "type": { "type": "string", "maxLength": 50 },
+        "read": { "type": "boolean" },
+        "relatedExpenseId": { "type": "string" }
+      },
+      "required": ["id", "userId", "title", "read"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile data"
+    },
+    "/rooms/{roomId}": {
+      "schema": "Room",
+      "description": "Room details"
+    },
+    "/rooms/{roomId}/members/{memberId}": {
+      "schema": "Member",
+      "description": "Room members list"
+    },
+    "/rooms/{roomId}/expenses/{expenseId}": {
+      "schema": "Expense",
+      "description": "Room expenses list"
+    },
+    "/users/{userId}/notifications/{notificationId}": {
+      "schema": "Notification",
+      "description": "User notifications"
+    }
+  }
+}
